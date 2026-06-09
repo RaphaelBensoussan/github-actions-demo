@@ -1,0 +1,26 @@
+name: Déclenchement de tous les workflows
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  actions: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  trigger-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lister les workflows
+        run: gh workflow list -R ${{ github.repository }}
+
+      - name: Lancer workflow 1
+        run: gh workflow run -R ${{ github.repository }} workflow1.yml
+
+      - name: Lancer workflow 2
+        run: gh workflow run -R ${{ github.repository }} workflow2.yml
